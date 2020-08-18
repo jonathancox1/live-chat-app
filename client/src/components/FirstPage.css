@@ -1,0 +1,16 @@
+.top-header {
+    padding-left: 40%;
+    padding-top: 100px;
+}
+
+.form-group {
+    width: 1000px;
+    padding-left: 33%;
+    padding-top: 10px;
+}
+
+.button-container {
+    display: flex;
+    justify-content: center;
+    padding-top: 15px;
+}
