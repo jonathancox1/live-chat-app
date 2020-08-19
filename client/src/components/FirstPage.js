@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import io from 'socket.io-client'
 import './FirstPage.css'
+import { Link } from 'react-router-dom'
 
 const FirstPage = () => {
     const [name, setName] = useState('')
@@ -30,7 +31,9 @@ const FirstPage = () => {
                 <input type="text" onChange={handleRoom} className="form-control" id="exampleInputPassword1"></input>
             </div>
             <div className="button-container">
+                <Link onClick={e => (!name || !roomCode) ? e.preventDefault() : null} to={`/chatroom?name=${name}&roomcode=${roomCode}`}>
                 <button type="submit" className="btn btn-primary">Submit</button>
+                </Link>
             </div>
         </form>
     )
