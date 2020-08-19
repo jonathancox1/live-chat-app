@@ -1,9 +1,18 @@
 import React, { useState, useEffect } from 'react'
 import io from 'socket.io-client'
+import './ChatRoom.css'
 
-function ChatRoom () {
+const ChatRoom = () => {
+    
     return (
-        <h1>Hello from ChatRoom!</h1>
+        
+        <>
+            <div className="top-container"></div>
+            <div className="chat-container"></div>
+            <input className="message" type="text"></input>
+            <button clasName="enter-button">Enter</button>
+        </>
+        
     )
 }
 
