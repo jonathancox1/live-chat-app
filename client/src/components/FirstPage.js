@@ -1,15 +1,17 @@
-import React, { useState, useEffect } from 'react'
+import React, { useEffect, useContext } from 'react'
 import io from 'socket.io-client'
 import './FirstPage.css'
 import { Link } from 'react-router-dom'
+import { ChatContext } from '../ChatContext'
 
 const FirstPage = () => {
-    const [name, setName] = useState('')
-    const [roomCode, setRoomCode] = useState('')
+
+    const {userName, setUserName} = useContext(ChatContext)
+    const {roomCode, setRoomCode} = useContext(ChatContext)
 
     const handleName = (e) => {
         console.log(e.currentTarget.value)
-        setName(e.currentTarget.value)
+        setUserName(e.currentTarget.value)
     }
 
     const handleRoom = (e) => {
@@ -31,7 +33,7 @@ const FirstPage = () => {
                 <input type="text" onChange={handleRoom} className="form-control" id="exampleInputPassword1"></input>
             </div>
             <div className="button-container">
-                <Link onClick={e => (!name || !roomCode) ? e.preventDefault() : null} to={`/chatroom?name=${name}&roomcode=${roomCode}`}>
+                <Link onClick={e => (!userName || !roomCode) ? e.preventDefault() : null} to={`/chatroom?username=${userName}&roomcode=${roomCode}`}>
                 <button type="submit" className="btn btn-primary">Submit</button>
                 </Link>
             </div>
