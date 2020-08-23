@@ -3,13 +3,22 @@ import io from 'socket.io-client'
 import './ChatRoom.css'
 import { ChatContext } from '../ChatContext'
 import ScrollToBottom from 'react-scroll-to-bottom'
+import queryString from 'query-string'
 
 
-const ChatRoom = () => {
+const ChatRoom = ({ location }) => {
     const { userName, setUserName } = useContext(ChatContext)
     const { roomCode, setRoomCode } = useContext(ChatContext)
     const [message, setMessage] = useState('')
     const [chats, setChats] = useState([])
+
+    useEffect(() => {
+        const { userName, roomCode } = queryString.parse(location.search)
+
+        // setUserName(userName)
+        // setRoomCode(roomCode)
+        // setChats([...chats, message])
+    })
 
     const handleMessage = (e) => {
         var newMessage = e.currentTarget.value
@@ -19,7 +28,6 @@ const ChatRoom = () => {
 
     const handleSubmit = (e) => {
         e.preventDefault()
-        console.log('Message submitted')
         setMessage("")
         chats.push(message)
     }
@@ -35,7 +43,7 @@ const ChatRoom = () => {
     return (
         <>
             <div className="top-container">
-                <h2>123</h2>
+                <h2>{roomCode}</h2>
             </div>
             <div className="chat-container">
             {renderChat()}
