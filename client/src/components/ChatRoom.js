@@ -9,26 +9,41 @@ const ChatRoom = () => {
     const { userName, setUserName } = useContext(ChatContext)
     const { roomCode, setRoomCode } = useContext(ChatContext)
     const [message, setMessage] = useState('')
+    const [chats, setChats] = useState([])
 
     const handleMessage = (e) => {
-        console.log(e.currentTarget.value)
-        setMessage(e.currentTarget.value)
+        var newMessage = e.currentTarget.value
+        // console.log(newMessage)
+        setMessage(newMessage)
     }
 
-    const handleClick = (e) => {
-        console.log('Button has clicked')
+    const handleSubmit = (e) => {
         e.preventDefault()
+        console.log('Message submitted')
+        setMessage("")
+        chats.push(message)
+    }
+
+    const renderChat = () => {
+        return chats.map((message, index) => {
+            return <div key={index}>
+            <p>{userName} : {message}</p>
+            </div>
+        })
     }
 
     return (
-        
         <>
             <div className="top-container">
                 <h2>123</h2>
             </div>
-            <div className="chat-container"></div>
-            <input className="message" type="text" onChange={handleMessage}></input>
-            <button className="enter-button" onClick={handleClick}>Enter</button>
+            <div className="chat-container">
+            {renderChat()}
+            </div>
+            <form className="form-inline" onSubmit={handleSubmit}>
+                <input type="text" onChange={handleMessage} value={message} className="form-control mb-2 mr-sm-2" id="inlineFormInputName2" placeholder="Type your message here..."/>
+                <button type="submit" className="btn btn-primary mb-2">Send</button>
+            </form>
         </>
         
     )
