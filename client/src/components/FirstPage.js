@@ -33,7 +33,7 @@ const FirstPage = () => {
                 <input type="text" onChange={handleRoom} className="form-control" id="exampleInputPassword1"></input>
             </div>
             <div className="button-container">
-                <Link onClick={e => (!userName || !roomCode) ? e.preventDefault() : null} to={`/chatroom?username=${userName}&roomcode=${roomCode}`}>
+                <Link onClick={e => (!userName || !roomCode) ? e.preventDefault() : null} to={`/chatroom?userName=${userName}&roomCode=${roomCode}`}>
                 <button type="submit" className="btn btn-primary">Submit</button>
                 </Link>
             </div>

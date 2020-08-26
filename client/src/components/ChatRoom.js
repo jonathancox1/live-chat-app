@@ -15,14 +15,13 @@ const ChatRoom = ({ location }) => {
     useEffect(() => {
         const { userName, roomCode } = queryString.parse(location.search)
 
-        // setUserName(userName)
-        // setRoomCode(roomCode)
+        setUserName(userName)
+        setRoomCode(roomCode)
         // setChats([...chats, message])
     })
 
     const handleMessage = (e) => {
         var newMessage = e.currentTarget.value
-        // console.log(newMessage)
         setMessage(newMessage)
     }
 
@@ -46,7 +45,7 @@ const ChatRoom = ({ location }) => {
                 <h2>{roomCode}</h2>
             </div>
             <div className="chat-container">
-            {renderChat()}
+                {renderChat()}
             </div>
             <form className="form-inline" onSubmit={handleSubmit}>
                 <input type="text" onChange={handleMessage} value={message} className="form-control mb-2 mr-sm-2" id="inlineFormInputName2" placeholder="Type your message here..."/>
