@@ -17,7 +17,6 @@ const ChatRoom = ({ location }) => {
 
         setUserName(userName)
         setRoomCode(roomCode)
-        // setChats([...chats, message])
     })
 
     const handleMessage = (e) => {
@@ -44,8 +43,10 @@ const ChatRoom = ({ location }) => {
             <div className="top-container">
                 <h2>{roomCode}</h2>
             </div>
-            <div className="chat-container">
+            <div>
+            <ScrollToBottom className="chat-container">
                 {renderChat()}
+            </ScrollToBottom>
             </div>
             <form className="form-inline" onSubmit={handleSubmit}>
                 <input type="text" onChange={handleMessage} value={message} className="form-control mb-2 mr-sm-2" id="inlineFormInputName2" placeholder="Type your message here..."/>
