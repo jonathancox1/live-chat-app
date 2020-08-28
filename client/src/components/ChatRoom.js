@@ -11,13 +11,16 @@ const ChatRoom = ({ location }) => {
     const { roomCode, setRoomCode } = useContext(ChatContext)
     const [message, setMessage] = useState('')
     const [chats, setChats] = useState([])
-
+ 
     useEffect(() => {
         const { userName, roomCode } = queryString.parse(location.search)
 
+        const socket = io('localhost:4000')
+        console.log(socket)
         setUserName(userName)
         setRoomCode(roomCode)
-    })
+
+    }, ['localhost:4000', location.search])
 
     const handleMessage = (e) => {
         var newMessage = e.currentTarget.value

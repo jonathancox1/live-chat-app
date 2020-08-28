@@ -7,7 +7,7 @@ const app = express()
 const server = http.createServer(app)
 const io = socketio(server)
 
-const port = process.env.PORT || 5000
+const port = process.env.PORT || 4000
 
 // Middleware
 app.use(express.static('../client/build'))
@@ -18,7 +18,7 @@ app.get('/', (req, res) => {
 
 
 io.on('connection', (socket) => {
-    console.log('a user connected')
+    console.log('An user connected')
     socket.on('disconnect', () => {
         console.log('An user disconnected')
     })
