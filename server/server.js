@@ -9,10 +9,13 @@ const io = socketio(server)
 
 const port = process.env.PORT || 5000
 
+// Middleware
+app.use(express.static('../client/build'))
 
 app.get('/', (req, res) => {
-    res.send('Server is running').status(200)
+    res.render('index.html')
 })
+
 
 io.on('connection', (socket) => {
     console.log('a user connected')
