@@ -5,12 +5,10 @@
 .top-container {
     margin-left: 30%;
     border: 1px solid #141313;
-    margin-top: 20px;
+    margin-top: 50px;
     width: 500px;
     height: 50px;
-    border-top-left-radius: 5em;
-    border-top-right-radius: 5em;
-    background-color: steelblue;
+    background-color: #48cf6c;
 }
 
 .chat-container {
@@ -25,6 +23,11 @@
     margin-left: 30%;
 }
 
-.form-control {
-    width: 500px;
+.message-input {
+    width: 430px;
+}
+
+.message-button {
+    width: 70px;
+    background-color: royalblue;
 }

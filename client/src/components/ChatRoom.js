@@ -49,8 +49,8 @@ const ChatRoom = ({ location }) => {
             </ScrollToBottom>
             </div>
             <form className="form-inline" onSubmit={handleSubmit}>
-                <input type="text" onChange={handleMessage} value={message} className="form-control mb-2 mr-sm-2" id="inlineFormInputName2" placeholder="Type your message here..."/>
-                <button type="submit" className="btn btn-primary mb-2">Send</button>
+                <input type="text" className="message-input" onChange={handleMessage} value={message} placeholder="Type message..." aria-label="Recipient's username" aria-describedby="basic-addon2" />
+                <button className="message-button" type="submit">Send</button>
             </form>
         </>
         
