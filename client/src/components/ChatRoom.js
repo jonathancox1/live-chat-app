@@ -12,12 +12,10 @@ const ChatRoom = ({ location }) => {
     const [message, setMessage] = useState('')
     const [chats, setChats] = useState([])
     const ENDPOINT = 'localhost:5000'
-
+    const socket = io(ENDPOINT)
  
     useEffect(() => {
         const { userName, roomCode } = queryString.parse(location.search)
-
-        const socket = io(ENDPOINT)
         
         setUserName(userName)
         setRoomCode(roomCode)
@@ -30,13 +28,12 @@ const ChatRoom = ({ location }) => {
         }
     }, [ENDPOINT, location.search])
 
-    // useEffect(() => {
-    //     const socket = io(ENDPOINT)
-        
-    //     socket.on('message', (message) => {
-    //         setChats([...chats, message])
-    //     }, [])
-    // })
+    useEffect(() => {
+        socket.on('message', ({userName, message}) => {
+            chats.push({message})
+            setChats(chats => [...chats, {userName, message}])
+        })
+    }, [])
 
     const handleMessage = (e) => {
         var newMessage = e.currentTarget.value
@@ -45,29 +42,18 @@ const ChatRoom = ({ location }) => {
 
     const handleSubmit = (e) => {
         e.preventDefault()
-
-        const socket = io(ENDPOINT)
-        console.log(socket)
-        console.log(socket.id)
-        console.log('zzzzzzzzz')
-        setMessage("")
-        chats.push(message)
-        // if (message) {
-        //     socket.emit('sendMessage', {message, userName, roomCode}, () => setMessage(""))
-        // }
+        setMessage('')
+        // chats.push(message)
+        socket.emit('message', {userName, message})
     }
-    // console.log(chats)
-    // console.log('zzzzzzzzzz')
-
+    
     const renderChat = () => {
-        return chats.map((message, index) => {
+        return chats.map(({userName, message}, index) => {
             return <div key={index}>
             <p>{userName} : {message}</p>
             </div>
         })
     }
-
-    
 
     return (
         <>

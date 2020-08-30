@@ -10,12 +10,10 @@ const FirstPage = () => {
     const {roomCode, setRoomCode} = useContext(ChatContext)
 
     const handleName = (e) => {
-        console.log(e.currentTarget.value)
         setUserName(e.currentTarget.value)
     }
 
     const handleRoom = (e) => {
-        console.log(e.currentTarget.value)
         setRoomCode(e.currentTarget.value)
     }
 

@@ -24,28 +24,17 @@ io.on('connection', (socket) => {
  
         if (error) return callbackFn(error)
         socket.join(user.roomCode)
-        console.log(user)
-        console.log(socket.id)
-        console.log('zzzzzzzzz')
+      })
 
-        socket.emit('message', {user: 'admin', text:`${user.userName}, welcome to the room ${user.roomCode}`})
-        socket.broadcast.to(user.roomCode).emit('message', {user: 'admin', text: `${user.userName}, has joined`})
-
-
-        // callbackFn()
+    socket.on('message', ({userName, message}) => {
+        console.log(userName)
+        io.emit('message', {userName, message})
     })
 
-    // socket.on('sendMessage', ({message, userName, roomCode}, callbackFn) => {
-    //     const user = getUser(socket.id)
-    //     console.log(socket.id)
-
-    //     io.to(user.roomCode).emit('message', {user: user.userName, text: message})
-        
-    //     callbackFn()
-    // })
+    socket.broadcast.emit('A new user has joined')    
 
     socket.on('disconnect', () => {
-        console.log('An user disconnected')
+        console.log('User disconnected')
     })
 })
 
