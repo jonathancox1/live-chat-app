@@ -20,13 +20,14 @@ const ChatRoom = ({ location }) => {
         setUserName(userName)
         setRoomCode(roomCode)
 
+        socket.emit('connection', {userName, roomCode})
         socket.emit('chatroom-join', {userName, roomCode})
 
         return () => {
             socket.emit('disconnect')
             socket.off()
         }
-    }, [ENDPOINT, location.search])
+    }, [])
 
     useEffect(() => {
         socket.on('message', ({userName, message}) => {

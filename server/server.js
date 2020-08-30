@@ -19,15 +19,14 @@ app.get('/', (req, res) => {
 
 
 io.on('connection', (socket) => {
-    socket.on('chatroom-join', ({userName, roomCode}, callbackFn) => {
-        const {error, user} = addUser({id: socket.id, userName, roomCode})
- 
-        if (error) return callbackFn(error)
-        socket.join(user.roomCode)
-      })
-
+    socket.on('chatroom-join', ({userName, roomCode}) => {
+        console.log('A new user joined')
+        socket.join(roomCode, () => {
+            socket.emit('A new user has joined')
+        })
+    })
+    
     socket.on('message', ({userName, message}) => {
-        console.log(userName)
         io.emit('message', {userName, message})
     })
 
