@@ -17,19 +17,23 @@ app.get('/', (req, res) => {
     res.render('index.html')
 })
 
-
+// Socket.io API
 io.on('connection', (socket) => {
     socket.on('chatroom-join', ({userName, roomCode}) => {
-        console.log('A new user joined')
-        socket.join(roomCode)
-            io.emit('message', {userName: 'admin', message: `${userName} has joined`})
+        const user = addUser(socket.id, userName, roomCode)
+        console.log(user.roomCode)
+        console.log(roomCode)
+        console.log({roomCode})
+        socket.join({roomCode})
+        io.to({roomCode}).emit('message', {userName: 'admin', message: `${userName} has joined`})
     })
     
     socket.on('message', ({userName, message}) => {
         io.emit('message', {userName, message})
     })
 
-    socket.on('disconnect', () => {
+    socket.on('disconnect', ({userName}) => {
+        io.emit('message', {userName: 'admin', message: `${userName} has left`})
         console.log('User disconnected')
     })
 })

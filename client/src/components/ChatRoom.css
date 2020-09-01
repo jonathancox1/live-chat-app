@@ -31,3 +31,7 @@
     width: 70px;
     background-color: royalblue;
 }
+
+.close-button {
+    align-items: flex-end;
+}

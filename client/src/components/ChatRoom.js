@@ -4,6 +4,7 @@ import './ChatRoom.css'
 import { ChatContext } from '../ChatContext'
 import ScrollToBottom from 'react-scroll-to-bottom'
 import queryString from 'query-string'
+import {useHistory} from 'react-router-dom'
 
 
 const ChatRoom = ({ location }) => {
@@ -23,14 +24,13 @@ const ChatRoom = ({ location }) => {
         socket.emit('chatroom-join', {userName, roomCode})
 
         return () => {
-            socket.emit('disconnect')
+            socket.emit('disconnect', {userName})
             socket.off()
         }
     }, [])
 
     useEffect(() => {
         socket.on('message', ({userName, message}) => {
-            // chats.push({message})
             setChats(chats => [...chats, {userName, message}])
         })
     }, [])
@@ -43,9 +43,14 @@ const ChatRoom = ({ location }) => {
     const handleSubmit = (e) => {
         e.preventDefault()
         setMessage('')
+        
         socket.emit('message', {userName, message})
     }
     
+    let history = useHistory()
+
+    const handleClose = () => {history.push('/')}
+
     const renderChat = () => {
         return chats.map(({userName, message}, index) => {
             return <div key={index}>
@@ -58,6 +63,7 @@ const ChatRoom = ({ location }) => {
         <>
             <div className="top-container">
                 <h2>{roomCode}</h2>
+                <button className="close-button" onClick={handleClose}>Close</button>
             </div>
             <div>
             <ScrollToBottom className="chat-container">
