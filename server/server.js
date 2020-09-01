@@ -23,7 +23,7 @@ io.on('connection', (socket) => {
         console.log('A new user joined')
         socket.join(roomCode)
             console.log(roomCode)
-            socket.broadcast.emit('message', {userName: 'admin', message: 'A new user has joined'})
+            io.emit('message', {userName: 'admin', message: `${userName} has joined`})
         
     })
     
