@@ -20,7 +20,6 @@ const ChatRoom = ({ location }) => {
         setUserName(userName)
         setRoomCode(roomCode)
 
-        socket.emit('connection', {userName, roomCode})
         socket.emit('chatroom-join', {userName, roomCode})
 
         return () => {
@@ -31,7 +30,7 @@ const ChatRoom = ({ location }) => {
 
     useEffect(() => {
         socket.on('message', ({userName, message}) => {
-            chats.push({message})
+            // chats.push({message})
             setChats(chats => [...chats, {userName, message}])
         })
     }, [])
@@ -44,7 +43,6 @@ const ChatRoom = ({ location }) => {
     const handleSubmit = (e) => {
         e.preventDefault()
         setMessage('')
-        // chats.push(message)
         socket.emit('message', {userName, message})
     }
     
