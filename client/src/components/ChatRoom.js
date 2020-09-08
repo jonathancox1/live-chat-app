@@ -14,7 +14,7 @@ const ChatRoom = ({ location }) => {
     const [chats, setChats] = useState([])
     const ENDPOINT = 'localhost:5000'
     const socket = io(ENDPOINT)
- 
+    
     useEffect(() => {
         const { userName, roomCode } = queryString.parse(location.search)
         
@@ -27,7 +27,7 @@ const ChatRoom = ({ location }) => {
             socket.emit('disconnect', {userName})
             socket.off()
         }
-    }, [])
+    }, [location.search, ENDPOINT])
 
     useEffect(() => {
         socket.on('message', ({userName, message}) => {
@@ -46,10 +46,6 @@ const ChatRoom = ({ location }) => {
         
         socket.emit('message', {userName, message})
     }
-    
-    let history = useHistory()
-
-    const handleClose = () => {history.push('/')}
 
     const renderChat = () => {
         return chats.map(({userName, message}, index) => {
@@ -63,7 +59,7 @@ const ChatRoom = ({ location }) => {
         <>
             <div className="top-container">
                 <h2>{roomCode}</h2>
-                <button className="close-button" onClick={handleClose}>Close</button>
+                <button className="close-button"><a href="/">Close</a></button>
             </div>
             <div>
             <ScrollToBottom className="chat-container">

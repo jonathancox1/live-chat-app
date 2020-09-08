@@ -20,10 +20,7 @@ app.get('/', (req, res) => {
 // Socket.io API
 io.on('connection', (socket) => {
     socket.on('chatroom-join', ({userName, roomCode}) => {
-        const user = addUser(socket.id, userName, roomCode)
-        console.log(user.roomCode)
-        console.log(roomCode)
-        console.log({roomCode})
+        console.log('User joined')
         socket.join({roomCode})
         io.to({roomCode}).emit('message', {userName: 'admin', message: `${userName} has joined`})
     })
@@ -32,9 +29,10 @@ io.on('connection', (socket) => {
         io.emit('message', {userName, message})
     })
 
-    socket.on('disconnect', ({userName}) => {
-        io.emit('message', {userName: 'admin', message: `${userName} has left`})
+    socket.on('disconnect', () => {
+        io.emit('message', {userName: 'admin', message: 'An user has left'})
         console.log('User disconnected')
+        socket.disconnect(true)
     })
 })
 
