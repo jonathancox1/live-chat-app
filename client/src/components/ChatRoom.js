@@ -4,7 +4,7 @@ import './ChatRoom.css'
 import { ChatContext } from '../ChatContext'
 import ScrollToBottom from 'react-scroll-to-bottom'
 import queryString from 'query-string'
-import {useHistory} from 'react-router-dom'
+import { useHistory } from 'react-router-dom'
 
 
 const ChatRoom = ({ location }) => {
@@ -14,24 +14,24 @@ const ChatRoom = ({ location }) => {
     const [chats, setChats] = useState([])
     const ENDPOINT = 'localhost:5000'
     const socket = io(ENDPOINT)
-    
+
     useEffect(() => {
         const { userName, roomCode } = queryString.parse(location.search)
-        
+
         setUserName(userName)
         setRoomCode(roomCode)
 
-        socket.emit('chatroom-join', {userName, roomCode})
+        socket.emit('chatroom-join', { userName, roomCode })
 
-        return () => {
-            socket.emit('disconnect', {userName})
-            socket.off()
-        }
+        // return () => {
+        //     socket.emit('disconnect', {userName})
+        //     socket.off()
+        // }
     }, [location.search, ENDPOINT])
 
     useEffect(() => {
-        socket.on('message', ({userName, message}) => {
-            setChats(chats => [...chats, {userName, message}])
+        socket.on('message', ({ userName, message }) => {
+            setChats(chats => [...chats, { userName, message }])
         })
     }, [])
 
@@ -43,35 +43,42 @@ const ChatRoom = ({ location }) => {
     const handleSubmit = (e) => {
         e.preventDefault()
         setMessage('')
-        
-        socket.emit('message', {userName, message})
+
+        socket.emit('message', { userName, message })
     }
 
     const renderChat = () => {
-        return chats.map(({userName, message}, index) => {
+        return chats.map(({ userName, message }, index) => {
             return <div key={index}>
-            <p>{userName} : {message}</p>
+                <p>{userName} : {message}</p>
             </div>
         })
+    }
+
+    const history = useHistory();
+    const disconnect = () => {
+        socket.emit('disconnect', 'steve')
+        socket.close()
+        history.push('/')
     }
 
     return (
         <>
             <div className="top-container">
                 <h2>{roomCode}</h2>
-                <button className="close-button"><a href="/">Close</a></button>
+                <button className="close-button" onClick={() => disconnect()}>Close</button>
             </div>
             <div>
-            <ScrollToBottom className="chat-container">
-                {renderChat()}
-            </ScrollToBottom>
+                <ScrollToBottom className="chat-container">
+                    {renderChat()}
+                </ScrollToBottom>
             </div>
             <form className="form-inline" onSubmit={handleSubmit}>
                 <input type="text" className="message-input" onChange={handleMessage} value={message} placeholder="Type message..." aria-label="Recipient's username" aria-describedby="basic-addon2" />
                 <button className="message-button" type="submit">Send</button>
             </form>
         </>
-        
+
     )
 }
 
